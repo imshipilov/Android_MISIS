@@ -27,6 +27,8 @@ class MyListAdapter (
         val item = dataSource[position]
         checkBox.text = item.task
         checkBox.isChecked = item.status
+        updateCheckBoxStyle(checkBox, item.status)
+
         deleteButton.setOnClickListener {
             coroutineScope.launch {
                 database.listItemDao().delete(item)
@@ -38,8 +40,16 @@ class MyListAdapter (
             coroutineScope.launch {
                 item.status = isChecked
                 database.listItemDao().update(item)
+                updateCheckBoxStyle(checkBox, isChecked)
             }
         }
         return view
+    }
+    private fun updateCheckBoxStyle(checkBox: CheckBox, isChecked: Boolean) {
+        if (isChecked) {
+            checkBox.setTextColor(context.getColor(R.color.gray))
+        } else {
+            checkBox.setTextColor(context.getColor(R.color.black))
+        }
     }
 }
