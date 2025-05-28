@@ -2,5 +2,6 @@
     <string name="app_name">lab3</string>
     <string name="logo_text">Список дел</string>
     <string name="button_text">Добавить</string>
+    <string name="button2_text">Очистить</string>
     <string name="input_hint_1">Мне надо сделать...</string>
 </resources>

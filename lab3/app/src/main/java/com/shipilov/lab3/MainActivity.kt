@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         val user_input = findViewById<EditText>(R.id.user_input)
         val add_button= findViewById<Button>(R.id.add_button)
         val list_view = findViewById<ListView>(R.id.list_view)
+        val clear_button = findViewById<Button>(R.id.clear_button)
         listItems = mutableListOf()
         adapter = MyListAdapter(this, listItems, lifecycleScope, database)
         list_view.adapter = adapter
@@ -57,6 +58,13 @@ class MainActivity : AppCompatActivity() {
                 }
             } else {
                 Toast.makeText(this, "Может быть вы хотите что-то сделать?", Toast.LENGTH_SHORT).show()
+            }
+        }
+        clear_button.setOnClickListener {
+            lifecycleScope.launch {
+                listItemDao.clearAll()
+                listItems.clear()
+                adapter.notifyDataSetChanged()
             }
         }
         lifecycleScope.launch {
@@ -85,6 +93,9 @@ interface ListItemDao {
 
     @Query("SELECT * FROM to_do_list")
     suspend fun getAllItems(): List<ListItem>
+
+    @Query("DELETE FROM to_do_list")
+    suspend fun clearAll()
 }
 
 @Database(
